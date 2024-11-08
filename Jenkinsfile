@@ -1,9 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage ('Clone') {
+        stage('Check Docker') {
             steps {
-                git 'https://github.com/Crypto347/page-html_css.git'
+                script {
+                    // Kiểm tra trạng thái của Docker
+                    sh 'docker --version'
+                    sh 'docker ps'
+                }
             }
         }
     }
