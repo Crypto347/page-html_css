@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'my-app'
         DOCKER_CONTAINER = 'my-app-container'
+        SONAR_TOKEN = credentials('micro-sonar-token') 
     }
     stages {
         stage('Checkout') {
@@ -17,17 +18,17 @@ pipeline {
                 }
             }
         }
-         stage('SonarQube Analysis') {
+          stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarScanner' // Thay 'SonarScanner' bằng tên đúng trong Jenkins
-                    withSonarQubeEnv('SonarQube') { // 'SonarQube' phải khớp với tên cấu hình SonarQube trong Jenkins
+                    def scannerHome = tool 'SonarScanner'  // Kiểm tra tên công cụ đã được cấu hình chính xác trong Jenkins
+                    withSonarQubeEnv('sonarqube') {  // Đảm bảo tên cấu hình SonarQube là 'sonarqube'
                         sh """
                         ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=your_project_key \
+                        -Dsonar.projectKey=micro \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=http://192.168.1.40:9000 \
-                        -Dsonar.login=<micro-sonar-token>
+                        -Dsonar.login=<micro-sonar-token>  // Thay <micro-sonar-token> bằng token thực tế
                         """
                     }
                 }
