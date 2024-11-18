@@ -17,12 +17,22 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
-            def scannerHome = tool 'SonarScanner';
-                withSonarQubeEnv() {
-                  sh "${scannerHome}/bin/sonar-scanner"
+         stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarScanner' // Thay 'SonarScanner' bằng tên đúng trong Jenkins
+                    withSonarQubeEnv('SonarQube') { // 'SonarQube' phải khớp với tên cấu hình SonarQube trong Jenkins
+                        sh """
+                        ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=your_project_key \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://192.168.1.40:9000 \
+                        -Dsonar.login=<micro-sonar-token>
+                        """
+                    }
+                }
+            }
         }
-      }
         stage('Test') {
             steps {
                 script {
