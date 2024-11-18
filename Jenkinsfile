@@ -21,7 +21,7 @@ pipeline {
           stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarScanner'  // Kiểm tra tên công cụ đã được cấu hình chính xác trong Jenkins
+                    def scannerHome = tool 'sonarqube'  // Kiểm tra tên công cụ đã được cấu hình chính xác trong Jenkins
                     withSonarQubeEnv('sonarqube') {  // Đảm bảo tên cấu hình SonarQube là 'sonarqube'
                         sh """
                         ${scannerHome}/bin/sonar-scanner \
