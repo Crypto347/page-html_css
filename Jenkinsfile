@@ -17,6 +17,18 @@ pipeline {
                 }
             }
         }
+        tage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Định nghĩa SonarQube Scanner tool
+                    def scannerHome = tool 'SonarScanner'
+                    withSonarQubeEnv() {
+                        // Chạy phân tích mã nguồn với SonarQube
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
         stage('Test') {
             steps {
                 script {
