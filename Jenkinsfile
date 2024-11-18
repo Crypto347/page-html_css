@@ -17,7 +17,7 @@ pipeline {
                 }
             }
         }
-        tage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 script {
                     // Định nghĩa SonarQube Scanner tool
